@@ -1,4 +1,5 @@
 import 'package:donation_app/create_account.dart';
+import 'package:donation_app/home_page.dart';
 import 'package:donation_app/log_in.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,19 @@ class StartScreen extends StatelessWidget {
           },
           child: Text('log in', style: TextStyle(
             color: const Color.fromARGB(255, 19, 97, 29)
-          ),))
+          ),)),
+
+          SizedBox(height: 80),
+
+          ElevatedButton(
+            onPressed: (){
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context){
+                  return HomePage();
+                }));
+            }, 
+            child: Text('home page'))
         ],
       ),
     );
