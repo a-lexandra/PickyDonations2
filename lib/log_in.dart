@@ -17,8 +17,8 @@ class LogIn extends StatefulWidget{
 class LogInState extends State<LogIn>{
   final _formKey = GlobalKey<FormState>();
 
-  var _Eemail = '';
-  var _Epass = '';
+  final TextEditingController _Eemail = TextEditingController();
+  final TextEditingController _Epass = TextEditingController();
 
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -29,8 +29,8 @@ class LogInState extends State<LogIn>{
     _formKey.currentState!.save();
     
     try{
-      final _userCredentials = await _firebase.signInWithEmailAndPassword(email: _Eemail.trim(), password: _Epass.trim());
-      print(_userCredentials);
+      final _userCredentials = await _firebase.signInWithEmailAndPassword(email: _Eemail.text.trim(), password: _Epass.text.trim());
+    //  print(_userCredentials);
     }on FirebaseAuthException catch(error){
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? 'Log in failed')));
@@ -65,7 +65,7 @@ class LogInState extends State<LogIn>{
 
           SizedBox(height: 80),
 
-          TextFormField(decoration: InputDecoration(
+          TextFormField(controller: _Eemail, decoration: InputDecoration(
             label: Text('email', style: TextStyle(
               color: Color.fromARGB(255, 19, 97, 29),
             ),),
@@ -83,7 +83,7 @@ class LogInState extends State<LogIn>{
 
           SizedBox(height: 30),
 
-          TextFormField(decoration: InputDecoration(
+          TextFormField(controller: _Epass, decoration: InputDecoration(
             label: Text('password', style: TextStyle(
               color: Color.fromARGB(255, 19, 97, 29)
             ),),

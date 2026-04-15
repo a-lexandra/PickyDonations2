@@ -4,11 +4,13 @@ import 'package:donation_app/log_in.dart';
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  StartScreen({super.key});
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      body: Center(
       child: Column(
         children: [
           SizedBox(height: 160),
@@ -57,19 +59,19 @@ class StartScreen extends StatelessWidget {
             color: const Color.fromARGB(255, 19, 97, 29)
           ),)),
 
-          SizedBox(height: 80),
+          // SizedBox(height: 80),
 
-          ElevatedButton(
-            onPressed: (){
-              Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context){
-                  return HomePage();
-                }));
-            }, 
-            child: Text('home page'))
+          // ElevatedButton(
+          //   onPressed: (){
+          //     Navigator.push(
+          //       context, 
+          //       MaterialPageRoute(builder: (context){
+          //         return HomePage();
+          //       }));
+          //   }, 
+          //   child: Text('home page'))
         ],
       ),
-    );
+    ));
   }
 }

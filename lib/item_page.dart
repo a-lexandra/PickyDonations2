@@ -1,3 +1,4 @@
+import 'package:donation_app/app_bar.dart';
 import 'package:donation_app/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -8,17 +9,17 @@ class ItemPage extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 193, 252, 189),
-
+      appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 80),
 
               ElevatedButton(style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 85, 169, 87),
+                alignment: Alignment.centerLeft
               ),
                 onPressed: (){
                   Navigator.push(
@@ -29,14 +30,14 @@ class ItemPage extends StatelessWidget{
                 }, 
                 child: Text('back', style: TextStyle(
                   color: Color.fromARGB(255, 19, 97, 29)
-                ),)
+                ),),
                 ),
 
                 SizedBox(height: 75),
 
                 Row(
                   children: [
-                  //  Image(image: )
+                  Icon(Icons.image_outlined, size: 80, color: Color.fromARGB(255, 19, 97, 29),),
                   SizedBox(width: 50),
 
                   Column(
@@ -44,7 +45,7 @@ class ItemPage extends StatelessWidget{
                       Text('(product name)', style: TextStyle(
                         color: Color.fromARGB(255, 19, 97, 29)
                       ),),
-                      Text('Donated by' + '(name)', style: TextStyle(
+                      Text('Donated by' + ' (name)', style: TextStyle(
                         color: Color.fromARGB(255, 19, 97, 29)
                       ),)
                     ],
@@ -53,29 +54,54 @@ class ItemPage extends StatelessWidget{
                 ),
                 SizedBox(height: 100),
 
-                Text('Category: ' + '(category)', style: TextStyle(
-                  color: Color.fromARGB(255, 19, 97, 29),
-                ),
-                textAlign: TextAlign.left,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Text('Category: ' + '(category)', style: TextStyle(
+                    color: Color.fromARGB(255, 19, 97, 29),
+                  ),
+                  textAlign: TextAlign.left,
+                  ),
+
+                  SizedBox(height: 20),
+
+                  Text('Status: ' + '(status)', style: TextStyle(
+                    color: Color.fromARGB(255, 19, 97, 29)
+                  ),),
+
+                  SizedBox(height: 20),
+
+                  Text('Description: ' + '(description)', style: TextStyle(
+                    color: Color.fromARGB(255, 19, 97, 29)
+                  ),),
+
+                  SizedBox(height: 60),
+
+                  Text('From the same category:', style: TextStyle(
+                    color: Color.fromARGB(255, 19, 97, 29)
+                  ),)
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: 20),
-
-                Text('Status: ' + '(status)', style: TextStyle(
-                  color: Color.fromARGB(255, 19, 97, 29)
-                ),),
-
-                SizedBox(height: 20),
-
-                Text('Description: ' + '(description)', style: TextStyle(
-                  color: Color.fromARGB(255, 19, 97, 29)
-                ),),
-
-                SizedBox(height: 60),
-
-                Text('From the same category:', style: TextStyle(
-                  color: Color.fromARGB(255, 19, 97, 29)
-                ),)
+              
+                SingleChildScrollView(
+                  child: Row(            
+                  children: [
+                    SizedBox(width: 30),
+                    Icon(Icons.image_outlined, size: 60, color: Color.fromARGB(255, 19, 97, 29),),
+                    SizedBox(width: 30),
+                    Icon(Icons.image_outlined, size: 60, color: Color.fromARGB(255, 19, 97, 29),),
+                    SizedBox(width: 30),
+                    Icon(Icons.image_outlined, size: 60, color: Color.fromARGB(255, 19, 97, 29),),
+                    SizedBox(width: 30),
+                  ],
+                ),
+                )
+                
+                
             ],
           ),
         ),

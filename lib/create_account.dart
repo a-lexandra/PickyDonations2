@@ -19,7 +19,7 @@ class CreateAccountState extends State<CreateAccount>{
   //bool isChecked = false;
   var _Eemail = '';
   var _Epass = '';
-  var _Euser = '';
+//  var _Euser = '';
 
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -31,7 +31,7 @@ class CreateAccountState extends State<CreateAccount>{
 
     try{
       final _userCredentials = await _firebase.createUserWithEmailAndPassword(email: _Eemail, password: _Epass);
-      print(_userCredentials);
+    //  print(_userCredentials);
     }on FirebaseAuthException catch (error){
       // if(error.code == 'email-already-in-use'){
       //   //message
@@ -66,22 +66,22 @@ class CreateAccountState extends State<CreateAccount>{
 
           SizedBox(height: 50),
 
-          TextFormField(decoration: const InputDecoration(
-            label: Text('username', style: TextStyle(
-              color: Color.fromARGB(255, 19, 97, 29)
-            ),)
+          // TextFormField(decoration: const InputDecoration(
+          //   label: Text('username', style: TextStyle(
+          //     color: Color.fromARGB(255, 19, 97, 29)
+          //   ),)
             
-          ),
-          validator: (value) {
-            if(value == null || value.trim().isEmpty){
-              return 'Please enter a username';
-            }
-            return null;
-          },
-          onSaved: (value){
-            _Euser = value!;
-          },
-          ),
+          // ),
+          // validator: (value) {
+          //   if(value == null || value.trim().isEmpty){
+          //     return 'Please enter a username';
+          //   }
+          //   return null;
+          // },
+          // onSaved: (value){
+          //   _Euser = value!;
+          // },
+          // ),
 
           SizedBox(height: 30),
 
