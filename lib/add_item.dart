@@ -1,5 +1,7 @@
 import 'package:donation_app/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddItem extends StatefulWidget{
   const AddItem({super.key});
@@ -11,6 +13,34 @@ class AddItem extends StatefulWidget{
 }
 
 class AddItemState extends State<AddItem> {
+
+  File? _takenPhotoFile;
+  File? _selectedPhotoFile;
+
+  void _selectPhoto() async {
+    final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50, maxWidth: 150);
+    if(selectedImage == null){
+      return;
+    }
+
+    setState(() {
+      _selectedPhotoFile = File(selectedImage.path);
+    });
+  }
+
+  void _takePhoto() async{
+    final takenImage = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 50, maxWidth: 150);
+    if(takenImage == null){
+      return;
+    }
+
+    setState(() {
+      _takenPhotoFile = File(takenImage.path);
+    });
+  }
+
+  var _Eproduct = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,25 +61,59 @@ class AddItemState extends State<AddItem> {
                 ),
 
                 SizedBox(height: 20),
-
-                Row(
+              
+              SingleChildScrollView(  
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: [
-                  Icon(Icons.image_outlined, size: 130, color: Color.fromARGB(255, 19, 97, 29),),
-                  SizedBox(width: 50),
-
+                //  Icon(Icons.image_outlined, size: 130, color: Color.fromARGB(255, 19, 97, 29),),
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundColor: Colors.green[300],
+                    foregroundImage: _takenPhotoFile != null ? FileImage(_takenPhotoFile!) : null,
+                  ),
+                  SizedBox(width: 30),
+                
                   Column(
                     children: [
-                      Text('select image', style: TextStyle(
+                      ElevatedButton.icon(
+                        onPressed: _selectPhoto, 
+                        icon: Icon(Icons.image_outlined, color: Color.fromARGB(255, 19, 97, 29),),
+                         style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 85, 169, 87)
+                        ),
+                        label: Text('select image', style: TextStyle(
                         color: Color.fromARGB(255, 19, 97, 29)
-                      ),),
+                      ),),),
+
                       SizedBox(height: 5),
-                      Text('take photo', style: TextStyle(
-                        color: Color.fromARGB(255, 19, 97, 29)
-                      ),)
+                      // Text('take photo', style: TextStyle(
+                      //   color: Color.fromARGB(255, 19, 97, 29)
+                      // ),)
+                      
+                      ElevatedButton.icon(
+                        onPressed: _takePhoto,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 85, 169, 87)
+                        ),
+                        icon: Icon(Icons.camera_alt, color: Color.fromARGB(255, 19, 97, 29),),
+                        label: Text('Take photo', style: TextStyle(
+                          color: Color.fromARGB(255, 19, 97, 29)
+                        ),),
+                      ),
+
+                      // TextButton.icon(
+                      //   onPressed: (){},
+                      //   icon: Icon(Icons.camera_alt, color: Color.fromARGB(255, 19, 97, 29),),
+                      //   label: Text('Take photo', style: TextStyle(
+                      //     color: Color.fromARGB(255, 19, 97, 29)
+                      //   ),),
+                      // )
                     ],
                   )
                   ],
                 ),
+              ),
 
                 SizedBox(height: 20),
 
@@ -64,6 +128,9 @@ class AddItemState extends State<AddItem> {
                     return 'Please enter the product name';
                   }
                   return null;
+                },
+                onSaved: (value){
+                  _Eproduct = value!;
                 },
                 ),
 

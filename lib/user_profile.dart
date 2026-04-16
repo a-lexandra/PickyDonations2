@@ -1,5 +1,6 @@
 import 'package:donation_app/add_item.dart';
 import 'package:donation_app/app_bar.dart';
+import 'package:donation_app/vgroup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -59,31 +60,39 @@ class UserProfile extends StatelessWidget {
 
                     SizedBox(height: 20),
 
-                    TextButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return AddItem();
-                  }));
-                }, 
-                child: Text('Donate item +', style: TextStyle(
-                  color: Color.fromARGB(255, 19, 97, 29)
-                ),)),
-
-                TextButton(
-                  onPressed: (){}, 
-                  child: Text('See group +', style: TextStyle(
+                  TextButton.icon(
+                    onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return AddItem();
+                    }));
+                    }, 
+                    icon: Icon(Icons.add_circle_outline_rounded, color: Color.fromARGB(255, 19, 97, 29),),
+                    label: Text('Donate item', style: TextStyle(
                     color: Color.fromARGB(255, 19, 97, 29)
                   ),)),
 
-                TextButton(
-                  onPressed: (){}, 
-                  child: Text('Add volunteers to\n the group +', style: TextStyle(
+                TextButton.icon(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder:(context){
+                      return Vgroup();
+                    }));
+                  }, 
+                  icon: Icon(Icons.group, color: Color.fromARGB(255, 19, 97, 29),),
+                  label: Text('See group', style: TextStyle(
                     color: Color.fromARGB(255, 19, 97, 29)
                   ),)),
 
-                TextButton(
+                TextButton.icon(
                   onPressed: (){}, 
-                  child: Text('see requests +', style: TextStyle(
+                  icon: Icon(Icons.add_circle_outline_rounded, color: Color.fromARGB(255, 19, 97, 29),),
+                  label: Text('Add volunteers to\n the group +', style: TextStyle(
+                    color: Color.fromARGB(255, 19, 97, 29)
+                  ),)),
+
+                TextButton.icon(
+                  onPressed: (){}, 
+                  icon: Icon(Icons.waving_hand, color: Color.fromARGB(255, 19, 97, 29),),
+                  label: Text('see requests', style: TextStyle(
                     color: Color.fromARGB(255, 19, 97, 29)
                   ),)),
               
