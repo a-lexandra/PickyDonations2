@@ -1,5 +1,6 @@
 import 'package:donation_app/home_page.dart';
 import 'package:donation_app/loading_page.dart';
+import 'package:donation_app/school_supplies.dart';
 import 'package:donation_app/start_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class App extends StatelessWidget {
           }
           
           if(snapshot.hasData){
-            return const HomePage();
+            return const SchoolSupplies();
           }
 
           return const StartScreen();

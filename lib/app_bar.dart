@@ -1,4 +1,5 @@
 import 'package:donation_app/home_page.dart';
+import 'package:donation_app/school_supplies.dart';
 import 'package:donation_app/user_profile.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class AppBarS extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return HomePage();
+                return SchoolSupplies();
               }));
             }, 
             icon: Icon(Icons.home),),
