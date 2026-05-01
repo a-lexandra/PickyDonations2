@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_app/home_page.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,7 +21,7 @@ class CreateAccountState extends State<CreateAccount>{
   //bool isChecked = false;
   var _Eemail = '';
   var _Epass = '';
-//  var _Euser = '';
+  var _Euser = '';
 
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -28,10 +30,20 @@ class CreateAccountState extends State<CreateAccount>{
       return;
     }
     _formKey.currentState!.save();
+    
 
     try{
       final _userCredentials = await _firebase.createUserWithEmailAndPassword(email: _Eemail, password: _Epass);
     //  print(_userCredentials);
+    //final storageRef = FirebaseStorage.instance.ref().child('users').child(path);
+    //await storageRef.putFile();
+
+    await FirebaseFirestore.instance.collection('users').doc(_userCredentials.user!.uid).set({
+      'username': _Euser,
+      'email': _Eemail,
+      'password': _Epass,
+      'account_type': 'donor'
+    });
     }on FirebaseAuthException catch (error){
       // if(error.code == 'email-already-in-use'){
       //   //message
@@ -66,22 +78,22 @@ class CreateAccountState extends State<CreateAccount>{
 
           SizedBox(height: 50),
 
-          // TextFormField(decoration: const InputDecoration(
-          //   label: Text('username', style: TextStyle(
-          //     color: Color.fromARGB(255, 19, 97, 29)
-          //   ),)
+          TextFormField(decoration: const InputDecoration(
+            label: Text('username', style: TextStyle(
+              color: Color.fromARGB(255, 19, 97, 29)
+            ),)
             
-          // ),
-          // validator: (value) {
-          //   if(value == null || value.trim().isEmpty){
-          //     return 'Please enter a username';
-          //   }
-          //   return null;
-          // },
-          // onSaved: (value){
-          //   _Euser = value!;
-          // },
-          // ),
+          ),
+          validator: (value) {
+            if(value == null || value.trim().isEmpty){
+              return 'Please enter a username';
+            }
+            return null;
+          },
+          onSaved: (value){
+            _Euser = value!;
+          },
+          ),
 
           SizedBox(height: 30),
 
@@ -125,48 +137,6 @@ class CreateAccountState extends State<CreateAccount>{
           ),
 
           SizedBox(height: 30),
-
-          // Row(
-          //   children: [
-          //     Text('Account type:', style: TextStyle(
-          //       color: Color.fromARGB(255, 19, 97, 29)
-          //     )),
-          //     Column(
-          //       children: [
-          //         Row(
-          //           children: [
-          //             Checkbox(value: isChecked, onChanged: (value){}),
-          //             Text('admin', style: TextStyle(
-          //               color: Color.fromARGB(255, 19, 97, 29)
-          //             ),),
-          //           ]
-          //         ),
-
-          //         Row(
-          //           children: [
-          //             Checkbox(value: isChecked, onChanged: (value){}),
-          //             Text('volunteer', style: TextStyle(
-          //               color: Color.fromARGB(255, 19, 97, 29)
-          //             )),
-          //           ]
-          //         ),
-
-          //         Row(
-          //           children: [
-          //             Checkbox(value: isChecked, onChanged: (value){
-          //               isChecked = value!;
-          //             }),
-          //             Text('user', style: TextStyle(
-          //               color: Color.fromARGB(255, 19, 97, 29)
-          //             )),
-          //           ]
-          //         )
-                  
-          //       ],
-          //     )
-              
-          //   ],
-          // ),
 
           SizedBox(height: 20),
 

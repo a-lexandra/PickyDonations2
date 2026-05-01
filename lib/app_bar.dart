@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_app/home_page.dart';
 import 'package:donation_app/school_supplies.dart';
 import 'package:donation_app/user_profile.dart';
@@ -20,20 +21,22 @@ class AppBarS extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return SchoolSupplies();
+                return HomePage();
               }));
             }, 
-            icon: Icon(Icons.home),),
+            icon: Icon(Icons.home, color: Color.fromARGB(255, 19, 97, 29)),),
             
             SizedBox(width: 180),
 
             IconButton(
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return UserProfile();
+                  return UserProfile(/*item: {
+                    'username': FirebaseFirestore.instance.collection('users').doc(_userCredential.user!.uid).get('username');
+                  },*/);
                 }));
               }, 
-              icon: Icon(Icons.menu))
+              icon: Icon(Icons.menu, color: Color.fromARGB(255, 19, 97, 29)))
         ],
       ),
     );

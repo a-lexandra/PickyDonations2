@@ -1,5 +1,7 @@
 // ignore_for_file: dead_code
 
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_app/app_bar.dart';
 import 'package:donation_app/user_profile.dart';
@@ -16,6 +18,35 @@ class AddItem extends StatefulWidget{
     return AddItemState();
   }
 }
+
+
+  //dropdown menu
+  typedef CategoryPick = DropdownMenuEntry<Categories>;
+  enum Categories {
+    SchoolSupplies('School supplies', Icons.book),
+    Clothes('Clothes', Icons.person),
+    Electronics('Electronics', Icons.smartphone),
+    Toys('Toys', Icons.toys),
+    Furniture('Furniture', Icons.chair),
+    Appliances('Appliances', Icons.microwave);
+
+    const Categories(this.label, this.icon);
+    final String label;
+    final IconData icon;
+
+    static final List<CategoryPick> entries = UnmodifiableListView<CategoryPick>(
+      values.map<CategoryPick>(
+        (Categories icon) => CategoryPick(
+          value: icon,
+          label: icon.label,
+          leadingIcon: Icon(icon.icon)
+        ),
+      ),
+    );
+  }
+  //dropdown menu
+
+  
 
 class AddItemState extends State<AddItem> {
   var _Eproduct = '';
@@ -54,9 +85,10 @@ class AddItemState extends State<AddItem> {
       await FirebaseFirestore.instance.collection('donations').doc(DateTime.now().millisecondsSinceEpoch.toString()).set({
         'photoURL': photoURL,
         'productName': _Eproduct,
-        'category': _Ecategory,
+        'category': _Ecategory.substring(11),
         'condition': _Econdition,
         'description': _Edescription,
+        'is_posted': false,
       });
     } catch (e) {
       print('Upload failed: $e');
@@ -87,7 +119,15 @@ class AddItemState extends State<AddItem> {
       _pickedPhoto = Image.file(_pickedPhotoFile!);
     });
   }
-  
+
+  // dropdown button
+  static const List<String> items = <String>['New', 'Used'];
+  String _dropdownValue = items.first;
+
+  //dropdown menu e intre cele doua clase, la inceput
+  final TextEditingController categController = TextEditingController();
+  Categories? selectedCategory;
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,23 +142,6 @@ class AddItemState extends State<AddItem> {
               key: _formKey,
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  // child: ElevatedButton(
-                  //   onPressed: (){
-                  //     Navigator.push(context, MaterialPageRoute(builder:  (context){
-                  //       return UserProfile();
-                  //     }));
-                  //   }, 
-                  //   style: ElevatedButton.styleFrom(
-                  //     backgroundColor: Color.fromARGB(255, 85, 169, 87)
-                  //   ),
-                  //   child: Text('Back', style: TextStyle(
-                  //     color: Color.fromARGB(255, 19, 97, 29)
-                  //   ),),
-                  // ),
-                ),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text('Upload picture:', style: TextStyle(
@@ -197,43 +220,80 @@ class AddItemState extends State<AddItem> {
                   alignment: Alignment.centerLeft,
                   child: Column(
                     children: [
-                      //select category multiple choice list?
-                      // Text('select category (list)', style: TextStyle(
-                      //   fontSize: 15,
-                      //   color: Color.fromARGB(255, 19, 97, 29)
-                      // ),),
-                      
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Category', style: TextStyle(
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                    
+                    child:  Row(
+                        children: [
+                          Text('Category: ', style: TextStyle(
                             fontSize: 15,
                             color: Color.fromARGB(255, 19, 97, 29)
-                          ),)
-                        ),
-                        onSaved: (value) {
-                          _Ecategory = value!;
-                        },
-                      ),
+                          ),),
 
+                          SizedBox(width: 10),
+
+                          // DropdownButton<String>(
+                          //   value: _dropdownValue,
+                          //   onChanged: (String? value){
+                          //     setState(() {
+                          //       _dropdownValue = value!;
+                          //     });
+                          //   },
+                          //   items: items.map<DropdownMenuItem<String>>((String value){
+                          //     return DropdownMenuItem<String>(value: value, child: Text(value, style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)),), );
+                          //   }).toList(),
+                          // ),
+
+                          DropdownMenuFormField<Categories>(
+                            controller: categController,
+                            dropdownMenuEntries: Categories.entries,
+                            enableFilter: true,
+                            enableSearch: true,
+                            requestFocusOnTap: true,
+                            leadingIcon: const Icon(Icons.search),
+                            label: const Text('choose category'),
+                            onSelected: (Categories? category){
+                              setState(() {
+                                selectedCategory = category;
+                              });
+                            },
+                            onSaved: (value){
+                              _Ecategory = value!.toString();
+                            },
+                          ),                          
+
+                        ],
+                      ),),
+                      
                       SizedBox(height: 25),
 
-                      //select condition tick box or select whether its new or used
-                        // Text('select condition (list)', style: TextStyle(
-                        //   fontSize: 15,
-                        //   color: Color.fromARGB(255, 19, 97, 29)
-                        // ),),
-
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Condition', style: TextStyle(
+                      Row(
+                        children: [
+                          Text('Condition:', style: TextStyle(
                             fontSize: 15,
                             color: Color.fromARGB(255, 19, 97, 29)
-                          ),)
-                        ),
-                        onSaved: (value) {
-                          _Econdition = value!;
-                        },
+                          ),),
+
+                          SizedBox(width: 10,),
+
+                      Expanded(
+                      child: DropdownButtonFormField<String>(
+                            value: _dropdownValue, 
+                            onChanged: (String? value){
+                              setState(() {
+                                _dropdownValue = value!;
+                              });
+                            },
+                            items: items.map<DropdownMenuItem<String>>((String value){
+                              return DropdownMenuItem<String>(value: value, child: Text(value, style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)),), );
+                            }).toList(),
+                            onSaved: (value){
+                              _Econdition = value!.toString();
+                            },
+                          ),),
+                        ],
                       ),
+
                     ]
                   ),
                 ),

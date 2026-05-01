@@ -7,16 +7,17 @@ import 'dart:io';
 
 
 
-class SchoolSupplies extends StatefulWidget{
-  const SchoolSupplies ({super.key});
+class Toys extends StatefulWidget{
+  const Toys ({super.key});
 
   @override
-  State<SchoolSupplies> createState() {
-    return _SchoolSuppliesState();
+  State<Toys> createState() {
+    return _ToysState();
   }
 }
 
-class _SchoolSuppliesState extends State<SchoolSupplies> {
+class _ToysState extends State<Toys> {
+  var _show = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class _SchoolSuppliesState extends State<SchoolSupplies> {
       body: Padding(
         padding: EdgeInsets.all(10.0),
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('donations').where('category', isEqualTo: 'SchoolSupplies').where('is_posted', isEqualTo: true).snapshots(), 
+        stream: FirebaseFirestore.instance.collection('donations').where('category', isEqualTo: 'Toys').where('is_posted', isEqualTo: true).snapshots(), 
         builder: (context, itemSnapshots){
           if(itemSnapshots.connectionState == ConnectionState.waiting){
             return const Center(
@@ -88,5 +89,4 @@ class _SchoolSuppliesState extends State<SchoolSupplies> {
       ),)
     );
   }
-  
-  }
+}

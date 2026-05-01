@@ -27,7 +27,7 @@ class App extends StatelessWidget {
           }
           
           if(snapshot.hasData){
-            return const SchoolSupplies();
+            return const HomePage();
           }
 
           return const StartScreen();

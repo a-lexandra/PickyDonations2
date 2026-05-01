@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:donation_app/add_volunteer.dart';
 import 'package:donation_app/app_bar.dart';
 import 'package:donation_app/user_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Vgroup extends StatefulWidget{
@@ -19,35 +22,33 @@ class VgroupState extends State<Vgroup>{
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20),
-        child: Center(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                    //   child: ElevatedButton(
-                    //   onPressed: (){
-                    //     Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    //       return UserProfile();
-                    //     }));
-                    //   }, 
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: Color.fromARGB(255, 85, 169, 87)
-                    //    ),
-                    //   child: Text('Back', style: TextStyle(
-                    //     color: Color.fromARGB(255, 19, 97, 29)
-                    //   )),
-                    // ),
-                    ),
-                    
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const Center(child: CircularProgressIndicator(),);
+            }
+          final uinfo = snapshot.data!.data() as Map<String, dynamic>;
+          final groupID = uinfo['groupID'];
 
+        // return StreamBuilder( 
+        //   stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('group').snapshots(), 
+        //   builder: (context, uinfo){
+        //   final data = uinfo.data!.data() as Map<String, dynamic>;
+
+        return Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //Align(
+                //alignment: Alignment.centerLeft,
+                //Column(
+                  //children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
-                        Text('institute name', style: TextStyle(
+                        Text(uinfo['institute'], style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 19, 97, 29)
@@ -55,56 +56,114 @@ class VgroupState extends State<Vgroup>{
 
                         SizedBox(width: 100),
 
+                      if(uinfo['account_type'] == 'admin')...[
                         IconButton(
-                          onPressed: (){}, 
-                          icon: Icon(Icons.add_circle_outline_rounded, color: Color.fromARGB(255, 19, 97, 29),))
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return AddVolunteer();
+                            }));
+                          }, 
+                          icon: Icon(Icons.add_circle_outline_rounded, color: Color.fromARGB(255, 19, 97, 29),)
+                        )
+                      ],
+
+
                       ],
                     ),
-
-                    Icon(Icons.arrow_right_alt_outlined, size: 30, color: Color.fromARGB(255, 19, 97, 29),),
                     
                     SizedBox(height: 25),
 
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Text('name', style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 19, 97, 29)
-                          ),),
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('groups').doc(groupID).collection('members').snapshots(), 
+                      builder: (context, ginfo){
+                        if(!ginfo.hasData){
+                          return const Center(child: CircularProgressIndicator(),);
+                        }
 
-                          SizedBox(height: 5),
+                        //final data = ginfo.data!.data() as Map<String, dynamic>;
+                        //final memberIDs = List<String>.from(data['members'] ?? []);
+                        final memberD = ginfo.data!.docs;
 
-                          Text('name', style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 19, 97, 29)
-                          ),),
+                        if(memberD.isEmpty){
+                          return const Center(child: Text('No volunteers added', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)),),);
+                        }
 
-                          SizedBox(height: 5),
+                        // final memberIDs = memberD.map((doc){
+                        //   doc.id;
+                        // }).toList();
+                        final memberIDs = memberD.map((doc) => doc.id).where((id) => id != null && id.trim().isNotEmpty).toList();
 
-                          Text('name', style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 19, 97, 29)
-                          ),),
+                    return FutureBuilder(
+                      future: FirebaseFirestore.instance.collection('users').where(FieldPath.documentId, whereIn: memberIDs.take(10).toList()).get(), 
+                      builder: (context, usnapshot){
+                        if(!usnapshot.hasData){
+                          return Center(child: CircularProgressIndicator(),);
+                        }
 
-                          SizedBox(height: 5),
+                        final users = usnapshot.data!.docs;
 
-                          Text('name', style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 19, 97, 29)
-                          ),),
-                        ],
-                      ),
-                    )
+                    return ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (context, index){
+                        final user = users[index].data() as Map <String, dynamic>;
+                        return ListTile(
+                          title: Text(user['username'], style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)))
+                        );
+                      }
+                    );
+
+                    });
+
+                    }),
+                  ),
+
+
+
+                    // SingleChildScrollView(
+                    //   child: Column(
+                    //     children: [
+                    //       Text('name', style: TextStyle(
+                    //         fontSize: 20,
+                    //         color: Color.fromARGB(255, 19, 97, 29)
+                    //       ),),
+
+                    //       SizedBox(height: 5),
+
+                    //       Text('name', style: TextStyle(
+                    //         fontSize: 20,
+                    //         color: Color.fromARGB(255, 19, 97, 29)
+                    //       ),),
+
+                    //       SizedBox(height: 5),
+
+                    //       Text('name', style: TextStyle(
+                    //         fontSize: 20,
+                    //         color: Color.fromARGB(255, 19, 97, 29)
+                    //       ),),
+
+                    //       SizedBox(height: 5),
+
+                    //       Text('name', style: TextStyle(
+                    //         fontSize: 20,
+                    //         color: Color.fromARGB(255, 19, 97, 29)
+                    //       ),),
+                    //     ],
+                    //   ),
+                    // )
                   ],
-                ),
-              )
+                //),
+              //)
               
               
-            ],
+            //],
           ),
-        ),
-      ),
-    );
+        );
+        
+      
+      //});
+  }),
+      
+    ));
   }
 }
