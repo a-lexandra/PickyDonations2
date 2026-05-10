@@ -80,6 +80,7 @@ class AddVolunteerState extends State<AddVolunteer>{
                               // },     
                               // ),
                               title: Text(userN['username'], style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)),),
+                              subtitle: Text(userN['email'], style: TextStyle(color: Color.fromARGB(255, 19, 97, 29))),
                             ),
                             ),
                             
@@ -91,6 +92,8 @@ class AddVolunteerState extends State<AddVolunteer>{
                                   'account_type': 'volunteer',
                                   'groupID': groupId
                                 });
+                                //i se adauga o colectie in care i se vor adauga
+                                //lucrurile pe care le a cerut
                                 await FirebaseFirestore.instance.collection('groups').doc(groupId).collection('members').doc(userId).set({
                                   'joinedAt': FieldValue.serverTimestamp(),
                                 });

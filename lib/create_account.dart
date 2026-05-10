@@ -42,7 +42,10 @@ class CreateAccountState extends State<CreateAccount>{
       'username': _Euser,
       'email': _Eemail,
       'password': _Epass,
-      'account_type': 'donor'
+      'account_type': 'donor',
+      'donations_nr': 0,
+      'groupID': null,
+      'institute': null
     });
     }on FirebaseAuthException catch (error){
       // if(error.code == 'email-already-in-use'){

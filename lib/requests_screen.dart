@@ -36,27 +36,99 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
       body: Padding(
         padding: EdgeInsets.all(20),
         child:StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('donations').where('is_posted', isEqualTo: false).snapshots(), 
+          stream: FirebaseFirestore.instance.collection('donations').snapshots(), 
           builder: (context, snapshot){  
-            final totalItems = snapshot.data!.docs;
+            //final totalItems = snapshot.data!.docs;
 
-        return Expanded(
+        return Column(
+          children: [
+
+            Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: <Widget>[
                   //volunteer tab
-                  Column(
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('donations').where('is_requested', isEqualTo: true).snapshots(),
+                  builder: (context, vol){
+                    if(!vol.hasData || vol.data!.docs.isEmpty){
+                      return const Center(
+                        child: Text('No volunteer requests', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29), fontSize: 20))
+                      );
+                    }
+                    final volr = vol.data!.docs;
+
+                  return Column(
                     children: [
                       Text('Volunteer requests', style: TextStyle(
                         color: Color.fromARGB(255, 19, 97, 29),
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                       ),),
-                    ],
-                  ),
+                      SizedBox(height: 30,),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: volr.length,
+                          itemBuilder: (context, index){
+                            final item2 = volr[index].data();
+                            final id2 = volr[index].id;
+                            return Card(
+                              color: Color.fromARGB(255, 137, 216, 131),
+                              margin: const EdgeInsets.only(bottom: 15),
+                            child: Row(
+                              children: [
+                            Expanded(
+                              child: ListTile(
+                                leading: Image.network(
+                                item2['photoURL'],
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.broken_image, size: 60);
+                                },
+                              ),
+                              title: Text(item2['productName'] ?? 'No name', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29), fontWeight: FontWeight.bold),),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Category: ${item2['category'] ?? 'N/A'}', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)),),
+                                  Text('Condition: ${item2['condition'] ?? 'N/A'}', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)),),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ItemPage(item: item2, id: id2)),
+                                );
+                              },
 
+                              ),
+                            ),
+                              ],
+                            )
+                            );
+                          }
+                        ),
+                      ),
+                    ],
+                  );
+
+                }
+                ),
+
+
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('donations').where('is_posted', isEqualTo: false).snapshots(),
+                  builder: (context, us){
+                    if(!us.hasData || us.data!.docs.isEmpty){
+                      return const Center(
+                        child: Text('No post requests', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29), fontSize: 20))
+                      );
+                    }
+                    final posr = us.data!.docs;
                   //user post tab
-                  Column(
+                  return Column(
                     children: [
                       Text('Donor post requests', style: TextStyle(
                         color: Color.fromARGB(255, 19, 97, 29),
@@ -66,10 +138,10 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
                       SizedBox(height: 30,),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: totalItems.length,
+                        itemCount: posr.length,
                         itemBuilder: (context, index){
-                          final item = totalItems[index].data();
-                          final id = totalItems[index].id;
+                          final item = posr[index].data();
+                          final id = posr[index].id;
                           return Card(
                             color: Color.fromARGB(255, 137, 216, 131),
                             margin: const EdgeInsets.only(bottom: 15),
@@ -103,13 +175,17 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
                       ),
                     ),
                     ]
-                  ),
+                  );
+
+                  }
+                ),
+
                 ],
               ),
+            )
+          ]
             );
-            
-          
-          
+             
         
         }),
       ),

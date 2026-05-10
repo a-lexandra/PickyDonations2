@@ -3,6 +3,7 @@ import 'package:donation_app/app_bar.dart';
 import 'package:donation_app/requests_screen.dart';
 import 'package:donation_app/settings.dart';
 import 'package:donation_app/vgroup.dart';
+import 'package:donation_app/vrequested.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -54,6 +55,8 @@ class _UserProfileState extends State<UserProfile>{
                 _isVolunteer = false;
                 //});
               }
+
+              final uID = FirebaseAuth.instance.currentUser!.uid;
 
             String totalDonations = data['donations_nr'].toString();
         
@@ -171,13 +174,6 @@ class _UserProfileState extends State<UserProfile>{
 
                     SizedBox(height: 3),
 
-                // TextButton.icon(
-                //   onPressed: (){}, 
-                //   icon: Icon(Icons.add_circle_outline_rounded, color: Color.fromARGB(255, 19, 97, 29),),
-                //   label: Text('Add volunteers to\n the group +', style: TextStyle(
-                //     color: Color.fromARGB(255, 19, 97, 29)
-                //   ),)),
-
                   if(_isAdmin) ...[
                     Align(
                       alignment: Alignment.centerLeft,
@@ -199,43 +195,62 @@ class _UserProfileState extends State<UserProfile>{
                 ),
               ),
 
-              SizedBox(height: 70),
+              SizedBox(height: 3),
               
               if(_isVolunteer) ...[
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        Text('Item requested', style: TextStyle(
-                          color: Color.fromARGB(255, 19, 97, 29),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),),
-                        Text('category x nr', style: TextStyle(
-                          color: Color.fromARGB(255, 19, 97, 29),
-                          fontSize: 15,
-                        ),)
-                      ],
-                    ),
-
-                    SizedBox(width: 70),
-
-                    Column(
-                      children: [
-                        Text('Request status', style: TextStyle(
-                          color: Color.fromARGB(255, 19, 97, 29),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),),
-
-                        Text('status', style: TextStyle(
-                          color: Color.fromARGB(255, 19, 97, 29),
-                          fontSize: 15,
-                         ),)
-                      ],
-                    )
-                  ],
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return Vrequested(id: uID);
+                      }));
+                    },
+                    icon: Icon(Icons.request_quote_outlined, color: Color.fromARGB(255, 19, 97, 29), size: 17,), 
+                    label: Text('See requested items', style: TextStyle(
+                      color: Color.fromARGB(255, 19, 97, 29),
+                      fontSize: 17
+                    )),)
                 ),
+                
+
+
+
+
+                // Row(
+                //   children: [
+                //     Column(
+                //       children: [
+                //         Text('Item requested', style: TextStyle(
+                //           color: Color.fromARGB(255, 19, 97, 29),
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 17,
+                //         ),),
+                //         Text('category x nr', style: TextStyle(
+                //           color: Color.fromARGB(255, 19, 97, 29),
+                //           fontSize: 15,
+                //         ),)
+                //       ],
+                //     ),
+
+                //     SizedBox(width: 70),
+
+                //     Column(
+                //       children: [
+                //         Text('Request status', style: TextStyle(
+                //           color: Color.fromARGB(255, 19, 97, 29),
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 17,
+                //         ),),
+
+                //         Text('status', style: TextStyle(
+                //           color: Color.fromARGB(255, 19, 97, 29),
+                //           fontSize: 15,
+                //          ),)
+                //       ],
+                //     )
+                //   ],
+                // ),
               ],
 
             ],

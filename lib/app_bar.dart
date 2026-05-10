@@ -17,7 +17,9 @@ class AppBarS extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Color.fromARGB(255, 193, 252, 189),
         elevation: 0,
         actions: [
-          
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
           IconButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -36,8 +38,12 @@ class AppBarS extends StatelessWidget implements PreferredSizeWidget {
                   },*/);
                 }));
               }, 
-              icon: Icon(Icons.menu, color: Color.fromARGB(255, 19, 97, 29)))
-        ],
+              icon: Icon(Icons.menu, color: Color.fromARGB(255, 19, 97, 29))
+            ),
+
+            ],
+        //   ),
+        // ],
       ),
     );
   }

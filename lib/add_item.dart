@@ -89,6 +89,8 @@ class AddItemState extends State<AddItem> {
         'condition': _Econdition,
         'description': _Edescription,
         'is_posted': false,
+        'is_requested': false,
+        'requested_by': null
       });
     } catch (e) {
       print('Upload failed: $e');

@@ -132,6 +132,30 @@ class ItemPage extends StatelessWidget{
                 ],
                 ),
               ],
+
+
+              if (item['is_requested'] == true)...[
+                Row(
+                  children: [         
+                    IconButton(
+                      onPressed: (){
+                        FirebaseFirestore.instance.collection('donations').doc(id).delete();
+                      },
+                      icon: Icon(Icons.check, color: Color.fromARGB(255, 3, 246, 80), size: 40,)
+                    ),
+                    SizedBox(width: 50,),
+                    IconButton(
+                      onPressed: (){
+                        FirebaseFirestore.instance.collection('donations').doc(id).update({
+                          'is_requested': false,
+                          'requested_by': null
+                        });
+                      },
+                      icon: Icon(Icons.close, color: Color.fromARGB(255, 246, 3, 27), size: 40,)
+                    ),
+                ],
+                ),
+              ],
          
 
             ],

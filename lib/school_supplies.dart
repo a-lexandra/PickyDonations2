@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_app/app_bar.dart';
 import 'package:donation_app/item_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
@@ -26,7 +27,7 @@ class _SchoolSuppliesState extends State<SchoolSupplies> {
       body: Padding(
         padding: EdgeInsets.all(10.0),
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('donations').where('category', isEqualTo: 'SchoolSupplies').where('is_posted', isEqualTo: true).snapshots(), 
+        stream: FirebaseFirestore.instance.collection('donations').where('category', isEqualTo: 'SchoolSupplies').where('is_posted', isEqualTo: true).where('is_requested', isEqualTo: false).snapshots(), 
         builder: (context, itemSnapshots){
           if(itemSnapshots.connectionState == ConnectionState.waiting){
             return const Center(
@@ -43,8 +44,16 @@ class _SchoolSuppliesState extends State<SchoolSupplies> {
               child: Text('An error appeared', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29), fontSize: 20)));
           }
 
-
           final totalItems = itemSnapshots.data!.docs;
+
+          return StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(), 
+            builder: (context, snapshot){
+              if (!snapshot.hasData || snapshot.data?.data() == null) {
+                return const Center(child: CircularProgressIndicator());
+              } 
+              final user = snapshot.data!.data() as Map<String, dynamic>;
+              final userId = snapshot.data!.id;
 
           return ListView.builder(
             itemCount: totalItems.length,
@@ -54,6 +63,10 @@ class _SchoolSuppliesState extends State<SchoolSupplies> {
               return Card(
                 color: Color.fromARGB(255, 137, 216, 131),
                 margin: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+
+                Expanded( 
                 child: ListTile(
                   leading: Image.network(
                     item['photoURL'],
@@ -81,10 +94,40 @@ class _SchoolSuppliesState extends State<SchoolSupplies> {
                     );
                   },
                 ),
+                ),
+                
+              if(user['account_type'] == 'volunteer')...[
+                IconButton(
+                  onPressed: () async {
+                    //este scos de pe lista principala;
+                    //este adaugat in lista voluntarului care i a dat request
+                    //si doar el si adminul il mai pot vedea;
+                    //daca admin da accept atunci dispare de tot;
+                    //daca admin da reject atunci se intoarce in lista principala
+                    //si dispare din lista voluntarului
+
+                    await FirebaseFirestore.instance.collection('donations').doc(id).update({
+                      'is_requested': true,
+                      'requested_by': userId
+                    });
+                  }, 
+                  icon: Icon(Icons.add, color: Color.fromARGB(255, 19, 97, 29),)
+                ),
+              ],
+
+                ],
+                ),
+                
               );
             }
           );
-        }
+        
+        
+          }
+          );
+        
+        
+        } //builder
       ),)
     );
   }

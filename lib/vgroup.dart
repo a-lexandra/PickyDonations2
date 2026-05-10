@@ -29,12 +29,12 @@ class VgroupState extends State<Vgroup>{
               return const Center(child: CircularProgressIndicator(),);
             }
           final uinfo = snapshot.data!.data() as Map<String, dynamic>;
-          final groupID = uinfo['groupID'];
+          print("uinfo = $uinfo");
+          print("groupID = ${uinfo['groupID']}");
+          print("institute = ${uinfo['institute']}");
+          print("account_type = ${uinfo['account_type']}");
 
-        // return StreamBuilder( 
-        //   stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('group').snapshots(), 
-        //   builder: (context, uinfo){
-        //   final data = uinfo.data!.data() as Map<String, dynamic>;
+          final groupID = uinfo['groupID'];
 
         return Center(
           child: Column(
@@ -92,7 +92,10 @@ class VgroupState extends State<Vgroup>{
                         // final memberIDs = memberD.map((doc){
                         //   doc.id;
                         // }).toList();
-                        final memberIDs = memberD.map((doc) => doc.id).where((id) => id != null && id.trim().isNotEmpty).toList();
+
+                      //  final memberIDs = memberD.map((doc) => doc.id).where((id) => id != null && id.trim().isNotEmpty).toList();
+                        final memberIDs = memberD.map((doc) => doc.id).toList();
+
 
                     return FutureBuilder(
                       future: FirebaseFirestore.instance.collection('users').where(FieldPath.documentId, whereIn: memberIDs.take(10).toList()).get(), 
@@ -106,10 +109,41 @@ class VgroupState extends State<Vgroup>{
                     return ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (context, index){
-                        final user = users[index].data() as Map <String, dynamic>;
-                        return ListTile(
-                          title: Text(user['username'], style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)))
+                        final user = users[index].data();
+                        final userId = users[index].id;
+                        final adminId = FirebaseAuth.instance.currentUser!.uid;
+                        return Card(
+                          color: Color.fromARGB(255, 137, 216, 131),
+                          margin: const EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(user['username'], style: TextStyle(color: Color.fromARGB(255, 19, 97, 29))),
+                                ),
+                              ),
+
+                            if(uinfo['account_type'] == 'admin')...[
+                              IconButton(
+                                onPressed: () async {
+                                  final adminD = await FirebaseFirestore.instance.collection('users').doc(adminId).get();
+                                  final groupId = adminD['groupID'];
+                                  await FirebaseFirestore.instance.collection('users').doc(userId).update({
+                                    'account_type': 'donor',
+                                    'groupID': null,
+                                  });
+                                  await FirebaseFirestore.instance.collection('groups').doc(groupId).collection('members').doc(userId).delete();
+                                }, 
+                                icon: Icon(Icons.remove, color: Color.fromARGB(255, 19, 97, 29),)
+                              ),
+                            ]
+
+                            ],
+                          ),
+                          
                         );
+                         
                       }
                     );
 
