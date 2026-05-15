@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_app/app_bar.dart';
+import 'package:donation_app/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,8 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarS(),
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       body: Padding(padding: EdgeInsets.all(20),
       child: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('users').snapshots(), 
@@ -84,6 +86,10 @@ class SettingsPage extends StatelessWidget {
               child: TextButton.icon(
               onPressed: (){
                 FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const App()),
+                    (route) => false,
+                  );
               }, 
               icon: Icon(Icons.logout, size: 40, color: Color.fromARGB(255, 19, 97, 29),),
               label: Text('Logout', style: TextStyle(color: Color.fromARGB(255, 19, 97, 29)))

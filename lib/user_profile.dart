@@ -26,7 +26,8 @@ class _UserProfileState extends State<UserProfile>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarS(),
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.all(20),
         child: StreamBuilder(
@@ -91,7 +92,7 @@ class _UserProfileState extends State<UserProfile>{
 
                   IconButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
                         return SettingsPage();
                       }));
                     }, 

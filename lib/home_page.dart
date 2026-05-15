@@ -1,5 +1,6 @@
 import 'package:donation_app/app_bar.dart';
 import 'package:donation_app/appliances.dart';
+import 'package:donation_app/books.dart';
 import 'package:donation_app/clothes.dart';
 import 'package:donation_app/electronics.dart';
 import 'package:donation_app/furniture.dart';
@@ -14,7 +15,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -68,6 +70,51 @@ class HomePage extends StatelessWidget {
                   ),
 
                   SizedBox(height: 20),
+
+                  ElevatedButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context){
+                        return Books();
+                      }),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                    //  backgroundColor: const Color.fromARGB(255, 137, 216, 131),
+                    //  fixedSize: Size(150, 80),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)
+                      ),
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/books.jpg'),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.4), 
+                            BlendMode.darken
+                          ),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Container(
+                        height: 120,
+                        //width:
+                        alignment: Alignment.center,
+                        child: Text('Books', style: TextStyle(
+                        //  color: Color.fromARGB(255, 19, 97, 29),
+                        color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ),
+                      
+                    ),
+                  ),
+
+                  SizedBox(height: 20,),
                   
                   ElevatedButton(
                     onPressed: () => Navigator.push(

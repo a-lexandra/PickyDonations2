@@ -9,7 +9,8 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       body: Center(
       child: Column(
         children: [
@@ -23,41 +24,69 @@ class StartScreen extends StatelessWidget {
           textAlign: TextAlign.center,
           ),
 
-          SizedBox(height: 120),
+          SizedBox(height: 180),
 
           ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 85, 169, 87)
+            backgroundColor: const Color.fromARGB(255, 85, 169, 87),
+            minimumSize: Size(250, 57),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
           ),  
           onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context){
-                return CreateAccount();
-              })
-            );
-          },
-          child: Text('create account', style: TextStyle(
-            color: const Color.fromARGB(255, 19, 97, 29)
-          ),)),
-
-          SizedBox(height: 30),
-
-          ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 85, 169, 87)
-          ),  
-          onPressed: (){
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context){
                 return LogIn();
               })
             );
           },
-          child: Text('log in', style: TextStyle(
-            color: const Color.fromARGB(255, 19, 97, 29)
+          child: Text('Log in', style: TextStyle(
+            color: const Color.fromARGB(255, 19, 97, 29),
+            fontWeight: FontWeight.bold,
+            fontSize: 20
           ),)),
+
+          SizedBox(height: 30,),
+
+          ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 85, 169, 87),
+            minimumSize: Size(250, 57),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
+          ),  
+          onPressed: (){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context){
+                return CreateAccount();
+              })
+            );
+          },
+          child: Text('Create account', style: TextStyle(
+            color: const Color.fromARGB(255, 19, 97, 29),
+            fontWeight: FontWeight.bold,
+            fontSize: 20
+          ),)),
+
+          //SizedBox(height: 30),
+
+          // ElevatedButton(
+          // style: ElevatedButton.styleFrom(
+          //   backgroundColor: const Color.fromARGB(255, 85, 169, 87),
+          //   minimumSize: Size(210, 55),
+          //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
+          // ),  
+          // onPressed: (){
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context){
+          //       return LogIn();
+          //     })
+          //   );
+          // },
+          // child: Text('log in', style: TextStyle(
+          //   color: const Color.fromARGB(255, 19, 97, 29)
+          // ),)),
 
           // SizedBox(height: 80),
 

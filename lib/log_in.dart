@@ -1,4 +1,5 @@
 import 'package:donation_app/home_page.dart';
+import 'package:donation_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -40,7 +41,8 @@ class LogInState extends State<LogIn>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189) ,
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189) ,
+      backgroundColor: Colors.white,
 
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -53,17 +55,17 @@ class LogInState extends State<LogIn>{
       child: Column(
         children: [
 
-          SizedBox(height: 80),
+          SizedBox(height: 20),
 
           Text("Log in", style: TextStyle(
             color: Color.fromARGB(255, 19, 97, 29),
             fontSize: 40,
             fontWeight: FontWeight.bold
           ),
-          textAlign: TextAlign.left,
+          //textAlign: TextAlign.left,
           ),
 
-          SizedBox(height: 80),
+          SizedBox(height: 130),
 
           TextFormField(controller: _Eemail, decoration: InputDecoration(
             label: Text('email', style: TextStyle(
@@ -97,12 +99,20 @@ class LogInState extends State<LogIn>{
           }
           ),
 
-          SizedBox(height: 80),
+          SizedBox(height: 100),
 
           ElevatedButton(
-            onPressed: _submit,
+            onPressed: (){
+              _submit();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const App()),
+                  (route) => false,
+                );
+              },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 85, 169, 87)
+              backgroundColor: Color.fromARGB(255, 85, 169, 87),
+              minimumSize: Size(200, 55),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
             ),
           // onPressed:(){
           //   Navigator.push(
@@ -112,7 +122,9 @@ class LogInState extends State<LogIn>{
           //     }));
           // },
           child: Text('Submit', style: TextStyle(
-            color: Color.fromARGB(255, 19, 97, 29)
+            color: Color.fromARGB(255, 19, 97, 29),
+            fontWeight: FontWeight.bold,
+            fontSize: 20
           ),))
         ],
       ),

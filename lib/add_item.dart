@@ -24,6 +24,7 @@ class AddItem extends StatefulWidget{
   typedef CategoryPick = DropdownMenuEntry<Categories>;
   enum Categories {
     SchoolSupplies('School supplies', Icons.book),
+    Books('Books', Icons.book),
     Clothes('Clothes', Icons.person),
     Electronics('Electronics', Icons.smartphone),
     Toys('Toys', Icons.toys),
@@ -92,6 +93,15 @@ class AddItemState extends State<AddItem> {
         'is_requested': false,
         'requested_by': null
       });
+
+      if (mounted) {
+        Navigator.of(context).pop(); 
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item posted successfully!'))
+        );
+      }
+
+
     } catch (e) {
       print('Upload failed: $e');
       return;
@@ -134,7 +144,8 @@ class AddItemState extends State<AddItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20),

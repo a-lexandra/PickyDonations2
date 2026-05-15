@@ -31,7 +31,8 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -73,7 +74,8 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
                             final item2 = volr[index].data();
                             final id2 = volr[index].id;
                             return Card(
-                              color: Color.fromARGB(255, 137, 216, 131),
+                              //color: Color.fromARGB(255, 137, 216, 131),
+                              color: Colors.grey.shade200,
                               margin: const EdgeInsets.only(bottom: 15),
                             child: Row(
                               children: [
@@ -143,7 +145,8 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
                           final item = posr[index].data();
                           final id = posr[index].id;
                           return Card(
-                            color: Color.fromARGB(255, 137, 216, 131),
+                            //color: Color.fromARGB(255, 137, 216, 131),
+                            color: Colors.grey.shade200,
                             margin: const EdgeInsets.only(bottom: 15),
                             child: ListTile(
                               leading: Image.network(
@@ -202,7 +205,8 @@ class RequestsScreenState extends State<RequestsScreen> with TickerProviderState
         indicatorColor: Color.fromARGB(255, 19, 97, 29),
         indicatorWeight: 1,
         padding: EdgeInsets.all(20),
-        dividerColor: Color.fromARGB(255, 193, 252, 189),
+        //dividerColor: Color.fromARGB(255, 193, 252, 189),
+        dividerColor: Colors.white,
         textScaler: TextScaler.linear(1.3),
       ),
     );

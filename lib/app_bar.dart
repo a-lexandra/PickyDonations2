@@ -14,23 +14,29 @@ class AppBarS extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 193, 252, 189),
+        //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+        backgroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          IconButton(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            padding: EdgeInsets.only(left: 10),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
                 return HomePage();
               }));
             }, 
-            icon: Icon(Icons.home, color: Color.fromARGB(255, 19, 97, 29)),),
+            icon: Icon(Icons.home, color: Color.fromARGB(255, 19, 97, 29)),
+          ),
+        actions: [
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          
             
             SizedBox(width: 180),
 
             IconButton(
+              padding: EdgeInsets.only(right: 10),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
                   return UserProfile(/*item: {

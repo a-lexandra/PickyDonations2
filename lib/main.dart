@@ -21,16 +21,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(theme:ThemeData(useMaterial3: true),
+    debugShowCheckedModeBanner: false,
     home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
-            return const LoadingPage();
+            return Scaffold(body: Center(child: CircularProgressIndicator(),),);
           }
           
           if(snapshot.hasData){
-            return const HomePage();
+            return HomePage();
           }
 
-          return const StartScreen();
+          return StartScreen();
         }),
       );
 }

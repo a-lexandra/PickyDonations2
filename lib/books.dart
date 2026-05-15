@@ -8,16 +8,16 @@ import 'dart:io';
 
 
 
-class Appliances extends StatefulWidget{
-  const Appliances ({super.key});
+class Books extends StatefulWidget{
+  const Books ({super.key});
 
   @override
-  State<Appliances> createState() {
-    return _AppliancesState();
+  State<Books> createState() {
+    return _BooksState();
   }
 }
 
-class _AppliancesState extends State<Appliances> {
+class _BooksState extends State<Books> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _AppliancesState extends State<Appliances> {
       body: Padding(
         padding: EdgeInsets.all(10.0),
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('donations').where('category', isEqualTo: 'Appliances').where('is_posted', isEqualTo: true).where('is_requested', isEqualTo: false).snapshots(), 
+        stream: FirebaseFirestore.instance.collection('donations').where('category', isEqualTo: 'Books').where('is_posted', isEqualTo: true).where('is_requested', isEqualTo: false).snapshots(), 
         builder: (context, itemSnapshots){
           if(itemSnapshots.connectionState == ConnectionState.waiting){
             return const Center(
@@ -63,7 +63,8 @@ class _AppliancesState extends State<Appliances> {
               final item = totalItems[index].data();
               final id = totalItems[index].id;
               return Card(
-                color: Color.fromARGB(255, 137, 216, 131),
+                //color: Color.fromARGB(255, 137, 216, 131),
+                color: Colors.grey.shade200,
                 margin: const EdgeInsets.all(10),
                 child: Row(
                   children: [

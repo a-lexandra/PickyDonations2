@@ -19,7 +19,8 @@ class AddVolunteerState extends State<AddVolunteer>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -68,6 +69,7 @@ class AddVolunteerState extends State<AddVolunteer>{
                       final userId = filtered[index].id;
                       final adminId = FirebaseAuth.instance.currentUser!.uid;
                       return Card(
+                        color: Colors.grey.shade200,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

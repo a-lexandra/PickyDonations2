@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_app/home_page.dart';
+import 'package:donation_app/main.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,7 +62,8 @@ class CreateAccountState extends State<CreateAccount>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
     
     body: Padding(
       padding: EdgeInsets.all(20.0),
@@ -71,7 +73,7 @@ class CreateAccountState extends State<CreateAccount>{
       child: SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 80),
+          SizedBox(height: 30),
 
           Text('Create account', style: TextStyle(
             color: Color.fromARGB(255, 19, 97, 29),
@@ -79,7 +81,7 @@ class CreateAccountState extends State<CreateAccount>{
             fontWeight: FontWeight.bold
           ),),
 
-          SizedBox(height: 50),
+          SizedBox(height: 120),
 
           TextFormField(decoration: const InputDecoration(
             label: Text('username', style: TextStyle(
@@ -139,14 +141,20 @@ class CreateAccountState extends State<CreateAccount>{
           },
           ),
 
-          SizedBox(height: 30),
-
-          SizedBox(height: 20),
+          SizedBox(height: 100),
 
           ElevatedButton(
-            onPressed: _submit,
+            onPressed: (){
+              _submit();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const App()),
+                  (route) => false,
+                );
+            },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 85, 169, 87)
+              backgroundColor: Color.fromARGB(255, 85, 169, 87),
+              minimumSize: Size(200, 55),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
             ),
             //onPressed: (){
               //_submit();
@@ -158,7 +166,9 @@ class CreateAccountState extends State<CreateAccount>{
               //   }));
             //},
             child: Text('Submit', style: TextStyle(
-              color: Color.fromARGB(255, 19, 97, 29)
+              color: Color.fromARGB(255, 19, 97, 29),
+              fontWeight: FontWeight.bold,
+              fontSize: 20
             ))),
 
             

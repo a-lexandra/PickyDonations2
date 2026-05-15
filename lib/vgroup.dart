@@ -18,7 +18,8 @@ class VgroupState extends State<Vgroup>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -113,7 +114,8 @@ class VgroupState extends State<Vgroup>{
                         final userId = users[index].id;
                         final adminId = FirebaseAuth.instance.currentUser!.uid;
                         return Card(
-                          color: Color.fromARGB(255, 137, 216, 131),
+                          //color: Color.fromARGB(255, 137, 216, 131),
+                          color: Colors.grey.shade200,
                           margin: const EdgeInsets.only(bottom: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +126,7 @@ class VgroupState extends State<Vgroup>{
                                 ),
                               ),
 
-                            if(uinfo['account_type'] == 'admin')...[
+                            if(uinfo['account_type'] == 'admin' && user['account_type'] != 'admin')...[
                               IconButton(
                                 onPressed: () async {
                                   final adminD = await FirebaseFirestore.instance.collection('users').doc(adminId).get();

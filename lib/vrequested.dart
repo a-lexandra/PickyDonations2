@@ -17,7 +17,8 @@ class _VrequestedState extends State<Vrequested>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      //backgroundColor: Color.fromARGB(255, 193, 252, 189),
+      backgroundColor: Colors.white,
       appBar: AppBarS(),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -44,7 +45,8 @@ class _VrequestedState extends State<Vrequested>{
               final item = totalItems[index].data();
               final itemId = totalItems[index].id;
               return Card(
-                color: Color.fromARGB(255, 137, 216, 131),
+                //color: Color.fromARGB(255, 137, 216, 131),
+                color: Colors.grey.shade200,
                 margin: const EdgeInsets.all(10),
                 child: Row(
                   children: [
